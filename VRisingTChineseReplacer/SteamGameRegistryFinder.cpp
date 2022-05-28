@@ -25,11 +25,11 @@ SteamGameRegistryFinder::SteamGameRegistryFinder()
     BOOL bWindowsIs32Bit, bIsWOW64, bProcessIs32Bit;
     if (!GetWindowsBits(bWindowsIs32Bit, bIsWOW64, bProcessIs32Bit)) return;
 
-    if (bWindowsIs32Bit && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Valve\\Steam", L"InstallPath", m_wstrSteamPath)) ||
-        !bWindowsIs32Bit && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Wow6432Node\\Valve\\Steam", L"InstallPath", m_wstrSteamPath)))
+    if (bWindowsIs32Bit && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, LR"(SOFTWARE\Valve\Steam)", L"InstallPath", m_wstrSteamPath)) ||
+        !bWindowsIs32Bit && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, LR"(SOFTWARE\Wow6432Node\Valve\Steam)", L"InstallPath", m_wstrSteamPath)))
     {
         std::wcout << m_wstrSteamPath << std::endl;
-        m_wstrLibraryFolderVDFPath = m_wstrSteamPath + L"\\steamapps\\libraryfolders.vdf";
+        m_wstrLibraryFolderVDFPath = m_wstrSteamPath + LR"(\steamapps\libraryfolders.vdf)";
     }
     else
     {
@@ -51,7 +51,7 @@ std::wstring SteamGameRegistryFinder::FindGamePath(const std::wstring& wstrName)
     std::wstring wstrLine;
     while (std::getline(vdfFile, wstrLine))
     {
-        std::wstring wstrItemName = L"\"path\"";
+        std::wstring wstrItemName = LR"("path")";
         if (const auto pos = wstrLine.find(wstrItemName); pos != std::wstring::npos)
         {
             const auto startPos = pos + wstrItemName.length() + 3; // skip "{wstrItemName}\t\t\""
@@ -60,7 +60,7 @@ std::wstring SteamGameRegistryFinder::FindGamePath(const std::wstring& wstrName)
             replace_all(wstrLibraryPath, LR"(\\)", LR"(\)");
 
             if (auto wstrInstallDir = FindInstallationDir(wstrLibraryPath, wstrName); !wstrInstallDir.empty())
-                return wstrLibraryPath + L"\\steamapps\\common\\" + wstrInstallDir;
+                return wstrLibraryPath + LR"(\steamapps\common\)" + wstrInstallDir;
         }
     }
 
@@ -69,7 +69,7 @@ std::wstring SteamGameRegistryFinder::FindGamePath(const std::wstring& wstrName)
 
 std::wstring SteamGameRegistryFinder::FindInstallationDir(const std::wstring& wstrLibraryPath, const std::wstring& wstrGameName)
 {
-    const std::wstring wstrSteamAppsPath = wstrLibraryPath + L"\\steamapps";
+    const std::wstring wstrSteamAppsPath = wstrLibraryPath + LR"(\steamapps)";
     for (const auto & file : std::filesystem::directory_iterator(wstrSteamAppsPath))
     {
         auto path = file.path().wstring();
@@ -86,7 +86,7 @@ std::wstring SteamGameRegistryFinder::FindInstallationDir(const std::wstring& ws
             bool bMatched = false;
             while (std::getline(acfFile, wstrLine))
             {
-                std::wstring wstrItemName = L"\"installdir\"";
+                std::wstring wstrItemName = LR"("installdir")";
                 auto pos = wstrLine.find(wstrItemName);
                 if (bMatched && pos != std::wstring::npos)
                 {
@@ -94,7 +94,7 @@ std::wstring SteamGameRegistryFinder::FindInstallationDir(const std::wstring& ws
                     return wstrLine.substr(startPos, wstrLine.length() - startPos - 1);
                 }
 
-                wstrItemName = L"\"name\"";
+                wstrItemName = LR"("name")";
                 pos = wstrLine.find(wstrItemName);
                 if (pos != std::wstring::npos)
                 {
