@@ -1,4 +1,4 @@
-#include "SteamGameRegistryFinder.h"
+﻿#include "SteamGameRegistryFinder.h"
 #include "RegistryUtil.h"
 #include "WindowsUtil.h"
 

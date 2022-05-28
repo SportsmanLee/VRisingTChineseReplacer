@@ -1,7 +1,8 @@
-#include "WindowsUtil.h"
+﻿#include "WindowsUtil.h"
 
 #include <iostream>
 
+// Reference: https://www.xitalogy.com/programming/2019/12/21/windows-internals-determining-bits.html
 BOOL GetWindowsBits(BOOL& windowsIs32Bit, BOOL& isWOW64, BOOL& processIs32Bit)
 {
   USHORT ProcessMachine;
