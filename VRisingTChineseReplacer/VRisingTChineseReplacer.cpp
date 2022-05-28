@@ -11,21 +11,21 @@ int main()
 
     SteamGameRegistryFinder gameFinder;
     const auto wstrGamePath = gameFinder.FindGamePath(L"V Rising");
-    std::wcout << L"�C���Ҧb��|: " << wstrGamePath << std::endl;
+    std::wcout << L"遊戲所在路徑: " << wstrGamePath << std::endl;
 
     const auto dstFilePath = std::filesystem::path(wstrGamePath + LR"(\VRising_Data\StreamingAssets\Localization\TChinese.json)");
     const auto srcFilePath = std::filesystem::path(L"TChinese.json");
     if (std::filesystem::exists(srcFilePath))
     {
         std::filesystem::copy_file(srcFilePath, dstFilePath, std::filesystem::copy_options::overwrite_existing);
-        std::wcout << L"�c�����ɮפw�ƻs��: " << dstFilePath.wstring() << std::endl;
+        std::wcout << L"繁中化檔案已複製至: " << dstFilePath.wstring() << std::endl;
     }
     else
     {
-        std::wcerr << L"�䤣���c�����ɮ�: " << srcFilePath.wstring() << std::endl
-            << LR"(�бN TChinese.json �m�󦹵{���Ҧb��Ƨ��C)" << std::endl;
+        std::wcerr << L"找不到繁中化檔案: " << srcFilePath.wstring() << std::endl
+            << LR"(請將 TChinese.json 置於此程式所在資料夾。)" << std::endl;
     }
 
-    std::wcout << std::endl << L"��J������H�������� . . .";
+    std::wcout << std::endl << L"輸入任何按鍵以關閉視窗 . . .";
     std::getchar();
 }
