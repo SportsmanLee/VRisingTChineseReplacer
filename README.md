@@ -7,7 +7,8 @@ This application detects the installation folder of the game **V Rising**, and p
 ## 用法 Usage
 
 1. 從 [VRisingTCTranslation](https://github.com/zjamestw/VRisingTCTranslation) 下載 `TChinese.json`。
-2. 將 `TChinese.json` 與 `VRisingTChineseReplacer.exe` 放在一起。
+2. 從[此處](https://github.com/SportsmanLee/VRisingTChineseReplacer/releases)下載 `VRisingTChineseReplace.exe`。
+3. 將 `TChinese.json` 與 `VRisingTChineseReplacer.exe` 放在一起。
 3. 執行 `VRisingTChineseReplacer.exe`。
 4. 完成。
 
