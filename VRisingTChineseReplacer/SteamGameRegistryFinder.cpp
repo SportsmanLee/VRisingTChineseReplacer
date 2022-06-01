@@ -22,11 +22,10 @@ SteamGameRegistryFinder::SteamGameRegistryFinder()
 {
     std::wcout << L"Steam installed path: ";
 
-    BOOL bWindowsIs32Bit, bIsWOW64, bProcessIs32Bit;
-    if (!GetWindowsBits(bWindowsIs32Bit, bIsWOW64, bProcessIs32Bit)) return;
+    BOOL bIsWow64 = IsWow64();
 
-    if (bWindowsIs32Bit && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, LR"(SOFTWARE\Valve\Steam)", L"InstallPath", m_wstrSteamPath)) ||
-        !bWindowsIs32Bit && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, LR"(SOFTWARE\Wow6432Node\Valve\Steam)", L"InstallPath", m_wstrSteamPath)))
+    if (bIsWow64 && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, LR"(SOFTWARE\Valve\Steam)", L"InstallPath", m_wstrSteamPath)) ||
+        !bIsWow64 && SUCCEEDED(GetRegistryString(HKEY_LOCAL_MACHINE, LR"(SOFTWARE\Wow6432Node\Valve\Steam)", L"InstallPath", m_wstrSteamPath)))
     {
         std::wcout << m_wstrSteamPath << std::endl;
         m_wstrLibraryFolderVDFPath = m_wstrSteamPath + LR"(\steamapps\libraryfolders.vdf)";
