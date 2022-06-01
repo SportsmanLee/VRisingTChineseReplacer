@@ -13,7 +13,7 @@ int main()
     const auto wstrGamePath = gameFinder.FindGamePath(L"V Rising");
     std::wcout << L"遊戲所在路徑: " << wstrGamePath << std::endl;
 
-    const auto dstFilePath = std::filesystem::path(wstrGamePath + LR"(\VRising_Data\StreamingAssets\Localization\TChinese.json)");
+    const auto dstFilePath = std::filesystem::path(wstrGamePath + LR"(\VRising_Data\StreamingAssets\Localization\繁體中文.json)");
     const auto srcFilePath = std::filesystem::path(L"TChinese.json");
     if (std::filesystem::exists(srcFilePath))
     {
